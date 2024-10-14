@@ -1,12 +1,11 @@
 package uz.ilmnajot.revolution_task.entity.auth;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import uz.ilmnajot.revolution_task.enums.Authority;
 import uz.ilmnajot.revolution_task.template.AbsEntity;
 
 import java.util.Collection;
@@ -29,6 +28,10 @@ public class User extends AbsEntity implements UserDetails {
     @ManyToOne
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Authority> authorities;
+
     private boolean isAccountNonExpired = true;
     private boolean isAccountNonLocked = true;
     private boolean isCredentialsNonExpired = true;
@@ -37,7 +40,10 @@ public class User extends AbsEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.getAuthorities().name()));
+       return authorities
+               .stream()
+               .map(authority -> new SimpleGrantedAuthority(authority.name()))
+               .toList();
     }
 
     @Override
