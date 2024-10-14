@@ -18,6 +18,8 @@ public class Comment extends AbsEntity {
 
     private String text;
 
+    private float score=4.5f;
+
     @ManyToOne
     private User users;
 }
