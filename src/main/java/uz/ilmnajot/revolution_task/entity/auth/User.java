@@ -1,6 +1,7 @@
 package uz.ilmnajot.revolution_task.entity.auth;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,10 +20,13 @@ import java.util.List;
 @Entity(name = "users")
 public class User extends AbsEntity implements UserDetails {
 
-    private String firstName;
-    private String lastName;
+    private String fName;
+    private String lName;
     @Column(unique = true)
+    @Email
     private String username;
+    private String pNumber;
+    private String address;
     private String verificationCode;
     private String password;
     @ManyToOne

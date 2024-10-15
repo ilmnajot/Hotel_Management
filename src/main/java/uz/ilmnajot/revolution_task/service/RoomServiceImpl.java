@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uz.ilmnajot.revolution_task.entity.Room;
+import uz.ilmnajot.revolution_task.enums.RoomStatus;
 import uz.ilmnajot.revolution_task.exception.AlreadyExistsException;
 import uz.ilmnajot.revolution_task.exception.NotFoundException;
 import uz.ilmnajot.revolution_task.model.request.RoomRequest;
@@ -27,9 +28,7 @@ public class RoomServiceImpl implements RoomService {
         }
         Room room = new Room();
         room.setRoomNumber(request.getRoomNumber());
-        room.setFloor(request.getFloor());
-        room.setAvailable(false);
-        room.setBookedDate(request.getBookedDate());
+        room.setStatus(RoomStatus.AVAILABLE);
         room.setCategory(request.getCategory());
         room.setRoomType(request.getRoomType());
 

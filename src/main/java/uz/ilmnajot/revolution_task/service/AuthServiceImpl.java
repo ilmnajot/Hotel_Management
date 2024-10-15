@@ -1,5 +1,6 @@
 package uz.ilmnajot.revolution_task.service;
 
+import jakarta.mail.internet.InternetAddress;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
 
-    @Value("@{spring.mail.username}")
+    @Value("${spring.mail.username}")
     private String mail;
 
     @Override
@@ -56,10 +57,10 @@ public class AuthServiceImpl implements AuthService {
                 -> new NotFoundException("role not found"));
 
         User user = new User();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
+        user.setFName(request.getFName());
+        user.setLName(request.getLName());
         user.setUsername(request.getUsername());
-        user.setVerificationCode(request.getVerificationCode());
+//        user.setVerificationCode(request.getVerificationCode());
         if (!request.getPassword().equals(request.getRepeatPassword())) {
 
             throw new ForbiddenException("not matching passwords", HttpStatus.BAD_REQUEST);
@@ -68,9 +69,11 @@ public class AuthServiceImpl implements AuthService {
         user.setRole(role);
         user.setEnabled(false);
         String verificationCode = generateVerificationCode();
+        user.setVerificationCode(verificationCode);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(request.getUsername());
-        message.setFrom(mail);
+        message.setFrom("ilmnajot2021@gmail.com");
+        message.setSubject("Test Email");
         message.setText("Verification Code: " + verificationCode);
         try {
 
@@ -78,7 +81,8 @@ public class AuthServiceImpl implements AuthService {
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage());
         }
-        UserRequest mapperRequest = userMapper.toRequest(user);
+        User addedUser = userRepository.save(user);
+        UserRequest mapperRequest = userMapper.toRequest(addedUser);
         return new ApiResponse(true, "the code is sent to your email to verify in 15 minutes", mapperRequest);
     }
 
@@ -106,7 +110,7 @@ public class AuthServiceImpl implements AuthService {
         if (user.getVerificationCode() != null && user.getVerificationCode().equals(verificationCode)) {
             user.setEnabled(true);
             userRepository.save(user);
-            return new ApiResponse("verified", HttpStatus.OK);
+            return new ApiResponse(true, "verified",HttpStatus.OK);
         }
         throw new ForbiddenException("failed", HttpStatus.BAD_REQUEST);
     }

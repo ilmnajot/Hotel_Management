@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import uz.ilmnajot.revolution_task.entity.Comment;
 import uz.ilmnajot.revolution_task.enums.RoomCategory;
+import uz.ilmnajot.revolution_task.enums.RoomStatus;
 import uz.ilmnajot.revolution_task.enums.RoomType;
 
 import java.time.LocalDateTime;
@@ -19,12 +20,9 @@ public class RoomRequest {
 
     private int roomNumber;
 
-    private int floor;
+    private double price;
 
-
-    private Boolean available;
-
-    private LocalDateTime bookedDate;
+    private RoomStatus status;
 
     private RoomCategory category;
 

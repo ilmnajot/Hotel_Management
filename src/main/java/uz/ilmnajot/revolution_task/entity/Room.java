@@ -3,6 +3,7 @@ package uz.ilmnajot.revolution_task.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import uz.ilmnajot.revolution_task.enums.RoomCategory;
+import uz.ilmnajot.revolution_task.enums.RoomStatus;
 import uz.ilmnajot.revolution_task.enums.RoomType;
 import uz.ilmnajot.revolution_task.template.AbsEntity;
 
@@ -23,12 +24,10 @@ public class Room extends AbsEntity {
     @Column(unique = true)
     private int roomNumber;
 
-    private int floor;
+    private Double price;
 
-
-    private Boolean available;
-
-    private LocalDateTime bookedDate;
+    @Enumerated(EnumType.STRING)
+    private RoomStatus status;
 
     @Enumerated(EnumType.STRING)
     private RoomCategory category;

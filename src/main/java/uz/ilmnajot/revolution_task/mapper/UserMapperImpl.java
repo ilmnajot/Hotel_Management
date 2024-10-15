@@ -24,19 +24,21 @@ public class UserMapperImpl implements UserMapper {
 
     public UserRequest toRequest(User user){
         UserRequest userRequest = new UserRequest();
-        userRequest.setFirstName(user.getFirstName());
-        userRequest.setLastName(user.getLastName());
+        userRequest.setFName(user.getFName());
+        userRequest.setLName(user.getLName());
         userRequest.setUsername(user.getUsername());
         Role role = roleRepository.findByName(RestConstant.USER).orElseThrow(()
                 -> new NotFoundException("role not found"));
         userRequest.setRoleId(role.getId());
+        userRequest.setAddress(user.getAddress());
+        userRequest.setPNumber(user.getPNumber());
         return userRequest;
     }
 
     public User toUser(UserRequest request){
         User user = new User();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
+        user.setFName(request.getFName());
+        user.setLName(request.getLName());
         user.setUsername(request.getUsername());
         Role role = roleRepository.findByName(RestConstant.USER).orElseThrow(()
                 -> new NotFoundException("role not found"));

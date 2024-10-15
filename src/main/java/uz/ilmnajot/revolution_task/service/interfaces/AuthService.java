@@ -7,6 +7,7 @@ import uz.ilmnajot.revolution_task.template.common.ApiResponse;
 public interface AuthService {
 
     ApiResponse signUp(SignUpRequest request);
+
     ApiResponse signIn(UserSignInRequest request);
 
     ApiResponse verify(String username, String verificationCode);
