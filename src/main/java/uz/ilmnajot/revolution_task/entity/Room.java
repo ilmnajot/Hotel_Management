@@ -24,7 +24,7 @@ public class Room extends AbsEntity {
     @Column(unique = true)
     private int roomNumber;
 
-    private Double price;
+    private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     private RoomStatus status;
@@ -32,7 +32,7 @@ public class Room extends AbsEntity {
     @Enumerated(EnumType.STRING)
     private RoomCategory category;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private RoomType roomType;
 
     @OneToMany

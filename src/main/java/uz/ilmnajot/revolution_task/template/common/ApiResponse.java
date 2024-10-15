@@ -1,11 +1,14 @@
 package uz.ilmnajot.revolution_task.template.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
+import uz.ilmnajot.revolution_task.mapper.RoomMapper;
 
 @Setter
 @Getter
+@AllArgsConstructor
 public class ApiResponse {
 
     private boolean success;
@@ -29,4 +32,6 @@ public class ApiResponse {
             this.status = httpStatus;
 
     }
+
+
 }

@@ -5,5 +5,7 @@ public enum Authority {
     REMOVE_ROOM,
     EDIT_ROOM,
     DELETE_ROOM,
-    BOOK_ROOM
+    BOOK_ROOM,
+    GET_ROOM,
+    GET_ROOMS
 }

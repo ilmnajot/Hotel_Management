@@ -34,25 +34,64 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        List<Authority> authorityList = Arrays.asList(Authority.values());
+        List<Authority> authorityListAdmin = Arrays.asList(
+                Authority.values());
+
+        List<Authority> authorityListManager = Arrays.asList(
+                Authority.ADD_ROOM,
+                Authority.BOOK_ROOM,
+                Authority.EDIT_ROOM,
+                Authority.GET_ROOM,
+                Authority.GET_ROOMS);
+
+        List<Authority> authorityListUser = Arrays.asList(
+                Authority.GET_ROOM, Authority.GET_ROOMS);
 
         if (mode.equals("always")) {
 
-
-                Role role = new Role();
-                role.setName("USER");
-                role.setRoleType(RoleType.USER);
-                roleRepository.save(role);
-
+            Role roleUser = new Role();
+            roleUser.setName("USER");
+            roleUser.setRoleType(RoleType.USER);
+            roleRepository.save(roleUser);
 
 
-                User user = new User();
-                user.setUsername("user@gmail.com");
-                user.setPassword(passwordEncoder.encode("user"));
-                user.setAuthorities(authorityList);
-                user.setRole(role);
-                user.setEnabled(true);
-                userRepository.save(user);
+            Role roleAdmin = new Role();
+            roleAdmin.setName("ADMIN");
+            roleAdmin.setRoleType(RoleType.ADMIN);
+            roleRepository.save(roleAdmin);
+
+
+            Role roleManager = new Role();
+            roleManager.setName("MANAGER");
+            roleManager.setRoleType(RoleType.MANAGER);
+            roleRepository.save(roleManager);
+
+
+            User user = new User();
+            user.setUsername("user@gmail.com");
+            user.setPassword(passwordEncoder.encode("user"));
+            user.setAuthorities(authorityListUser);
+            user.setRole(roleUser);
+            user.setEnabled(true);
+            userRepository.save(user);
+
+
+            User admin = new User();
+            admin.setUsername("admin@gmail.com");
+            admin.setPassword(passwordEncoder.encode("admin"));
+            admin.setAuthorities(authorityListAdmin);
+            admin.setRole(roleAdmin);
+            admin.setEnabled(true);
+            userRepository.save(admin);
+
+            User manager = new User();
+            manager.setUsername("manager@gmail.com");
+            manager.setPassword(passwordEncoder.encode("manager"));
+            manager.setAuthorities(authorityListManager);
+            manager.setRole(roleManager);
+            manager.setEnabled(true);
+            userRepository.save(manager);
+
 
         }
     }
