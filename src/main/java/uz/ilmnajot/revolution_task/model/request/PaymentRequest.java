@@ -24,4 +24,7 @@ public class PaymentRequest {
     private BigDecimal amount;
     private PaymentStatus status;
     private Long reservationId;
+
+
+
 }

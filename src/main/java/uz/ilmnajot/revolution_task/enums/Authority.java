@@ -7,5 +7,12 @@ public enum Authority {
     DELETE_ROOM,
     BOOK_ROOM,
     GET_ROOM,
-    GET_ROOMS
+    GET_ROOMS,
+
+
+    MAKE_PAYMENT,
+    UPDATE_PAYMENT,
+    GET_PAYMENT,
+    GET_ALL_PAYMENTS,
+    DELETE_PAYMENT
 }
