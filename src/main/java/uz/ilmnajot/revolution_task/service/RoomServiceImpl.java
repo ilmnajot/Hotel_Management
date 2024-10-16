@@ -12,7 +12,7 @@ import uz.ilmnajot.revolution_task.mapper.RoomMapper;
 import uz.ilmnajot.revolution_task.model.request.RoomRequest;
 import uz.ilmnajot.revolution_task.repository.RoomRepository;
 import uz.ilmnajot.revolution_task.service.interfaces.RoomService;
-import uz.ilmnajot.revolution_task.template.common.ApiResponse;
+import uz.ilmnajot.revolution_task.model.common.ApiResponse;
 
 import java.util.List;
 import java.util.Optional;

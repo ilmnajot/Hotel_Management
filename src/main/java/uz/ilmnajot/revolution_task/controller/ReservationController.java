@@ -5,10 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.ilmnajot.revolution_task.model.request.ReservationRequest;
 import uz.ilmnajot.revolution_task.service.interfaces.ReservationService;
-import uz.ilmnajot.revolution_task.template.common.ApiResponse;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import uz.ilmnajot.revolution_task.model.common.ApiResponse;
 
 @RestController
 @RequestMapping("/api/reserve")

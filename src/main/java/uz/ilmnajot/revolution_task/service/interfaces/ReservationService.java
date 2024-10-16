@@ -1,6 +1,6 @@
 package uz.ilmnajot.revolution_task.service.interfaces;
 
-import uz.ilmnajot.revolution_task.template.common.ApiResponse;
+import uz.ilmnajot.revolution_task.model.common.ApiResponse;
 
 import java.time.LocalDate;
 

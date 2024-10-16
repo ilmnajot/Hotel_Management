@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.ilmnajot.revolution_task.model.request.RoomRequest;
 import uz.ilmnajot.revolution_task.service.interfaces.RoomService;
-import uz.ilmnajot.revolution_task.template.common.ApiResponse;
+import uz.ilmnajot.revolution_task.model.common.ApiResponse;
 import uz.ilmnajot.revolution_task.validation.CheckAuthority;
 
 @RequiredArgsConstructor

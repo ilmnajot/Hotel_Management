@@ -1,6 +1,5 @@
 package uz.ilmnajot.revolution_task.service;
 
-import jakarta.mail.internet.InternetAddress;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -24,7 +23,7 @@ import uz.ilmnajot.revolution_task.repository.RoleRepository;
 import uz.ilmnajot.revolution_task.repository.UserRepository;
 import uz.ilmnajot.revolution_task.security.JwtProvider;
 import uz.ilmnajot.revolution_task.service.interfaces.AuthService;
-import uz.ilmnajot.revolution_task.template.common.ApiResponse;
+import uz.ilmnajot.revolution_task.model.common.ApiResponse;
 import uz.ilmnajot.revolution_task.utils.RestConstant;
 
 import java.util.Optional;

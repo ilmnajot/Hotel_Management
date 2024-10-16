@@ -1,4 +1,4 @@
-package uz.ilmnajot.revolution_task.template.common;
+package uz.ilmnajot.revolution_task.model.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
