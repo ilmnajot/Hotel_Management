@@ -43,6 +43,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
 
+
     @Value("${spring.mail.username}")
     private String mail;
 
@@ -120,6 +121,9 @@ public class AuthServiceImpl implements AuthService {
         int randomCode = 100000 + random.nextInt(900000);
         return String.valueOf(randomCode);
     }
+
+
+
 
 
 }
