@@ -37,4 +37,12 @@ public class Room extends AbsEntity {
 
     @OneToMany
     private List<Comment> comments;
+
+    public Room(int roomNumber, BigDecimal price, RoomStatus status, RoomCategory category, RoomType roomType) {
+        this.roomNumber = roomNumber;
+        this.price = price;
+        this.status = status;
+        this.category = category;
+        this.roomType = roomType;
+    }
 }

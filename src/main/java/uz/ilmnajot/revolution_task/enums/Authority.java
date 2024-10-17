@@ -14,5 +14,8 @@ public enum Authority {
     UPDATE_PAYMENT,
     GET_PAYMENT,
     GET_ALL_PAYMENTS,
-    DELETE_PAYMENT
+    DELETE_PAYMENT,
+
+
+    POST_COMMENT
 }

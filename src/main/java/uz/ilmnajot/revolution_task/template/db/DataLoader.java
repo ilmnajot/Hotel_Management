@@ -4,13 +4,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import uz.ilmnajot.revolution_task.entity.Hotel;
+import uz.ilmnajot.revolution_task.entity.Room;
 import uz.ilmnajot.revolution_task.entity.auth.Role;
 import uz.ilmnajot.revolution_task.entity.auth.User;
-import uz.ilmnajot.revolution_task.enums.Authority;
-import uz.ilmnajot.revolution_task.enums.RoleType;
+import uz.ilmnajot.revolution_task.enums.*;
+import uz.ilmnajot.revolution_task.repository.HotelRepository;
 import uz.ilmnajot.revolution_task.repository.RoleRepository;
 import uz.ilmnajot.revolution_task.repository.UserRepository;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,14 +24,16 @@ public class DataLoader implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final HotelRepository hotelRepository;
 
     @Value("${spring.sql.init.mode}")
     private String mode;
 
-    public DataLoader(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public DataLoader(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, HotelRepository hotelRepository) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.hotelRepository = hotelRepository;
     }
 
 
@@ -93,6 +99,23 @@ public class DataLoader implements CommandLineRunner {
             userRepository.save(manager);
 
 
+            List<Room> roomList = Arrays.asList(
+                    new Room(1, null, RoomStatus.AVAILABLE, RoomCategory.LUX, RoomType.DOUBLE),
+                    new Room(2, null, RoomStatus.AVAILABLE, RoomCategory.COMFORT, RoomType.DOUBLE),
+                    new Room(3, null, RoomStatus.AVAILABLE, RoomCategory.NORMAL, RoomType.DOUBLE),
+                    new Room(4, null, RoomStatus.AVAILABLE, RoomCategory.LUX, RoomType.DOUBLE),
+                    new Room(5, null, RoomStatus.AVAILABLE, RoomCategory.LUX, RoomType.SINGLE)
+            );
+
+            Hotel hotel = new Hotel();
+            hotel.setName("IlmNajot");
+            hotel.setDescription("this hotel is really cool");
+            hotel.setAddress("Tashkent Yunusobot 5-mavze, 13/5");
+            hotel.setCity("Tashkent");
+            hotel.setCity("Uzbekistan");
+            hotel.setPhone("+998991004020");
+            hotel.setRooms(roomList);
+            hotelRepository.save(hotel);
         }
     }
 }

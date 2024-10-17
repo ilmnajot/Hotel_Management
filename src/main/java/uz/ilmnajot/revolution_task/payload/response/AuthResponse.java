@@ -1,4 +1,4 @@
-package uz.ilmnajot.revolution_task.model.response;
+package uz.ilmnajot.revolution_task.payload.response;
 
 import lombok.Data;
 

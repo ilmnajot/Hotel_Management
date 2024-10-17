@@ -1,10 +1,9 @@
-package uz.ilmnajot.revolution_task.model.common;
+package uz.ilmnajot.revolution_task.payload.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
-import uz.ilmnajot.revolution_task.mapper.RoomMapper;
 
 @Setter
 @Getter

@@ -1,4 +1,4 @@
-package uz.ilmnajot.revolution_task.model.request;
+package uz.ilmnajot.revolution_task.payload.request;
 
 import lombok.Getter;
 import lombok.Setter;

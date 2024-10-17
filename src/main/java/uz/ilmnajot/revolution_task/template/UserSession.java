@@ -4,26 +4,23 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uz.ilmnajot.revolution_task.entity.auth.User;
-import uz.ilmnajot.revolution_task.mapper.UserMapper;
-import uz.ilmnajot.revolution_task.model.request.UserRequest;
-import uz.ilmnajot.revolution_task.model.response.UserResponse;
+import uz.ilmnajot.revolution_task.payload.response.UserResponse;
 
 @Component
 public class UserSession {
 
 
-    private final UserMapper userMapper;
+    private final UserResponse userResponse;
 
-    public UserSession(UserMapper userMapper) {
-        this.userMapper = userMapper;
+    public UserSession(UserResponse userResponse) {
+        this.userResponse = userResponse;
     }
-
 
     public UserResponse getUser() {
         UserResponse userResponse = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof User) {
-            userResponse = userMapper.toResponse((User) authentication.getPrincipal());
+            userResponse = this.userResponse.toUserResponse((User) authentication.getPrincipal());
         }
         return userResponse;
     }

@@ -1,7 +1,7 @@
 package uz.ilmnajot.revolution_task.service.interfaces;
 
-import uz.ilmnajot.revolution_task.model.request.RoomRequest;
-import uz.ilmnajot.revolution_task.model.common.ApiResponse;
+import uz.ilmnajot.revolution_task.payload.request.RoomRequest;
+import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 
 public interface RoomService {
     ApiResponse addRoom(RoomRequest request);
@@ -17,4 +17,6 @@ public interface RoomService {
     ApiResponse getAvailableRooms(int page, int size);
 
     ApiResponse getRemovedRooms(int page, int size);
+
+    ApiResponse getBookedDays(int page, int size);
 }

@@ -1,8 +1,8 @@
 package uz.ilmnajot.revolution_task.service.interfaces;
 
-import uz.ilmnajot.revolution_task.model.request.SignUpRequest;
-import uz.ilmnajot.revolution_task.model.request.UserSignInRequest;
-import uz.ilmnajot.revolution_task.model.common.ApiResponse;
+import uz.ilmnajot.revolution_task.payload.request.SignUpRequest;
+import uz.ilmnajot.revolution_task.payload.request.UserSignInRequest;
+import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 
 public interface AuthService {
 

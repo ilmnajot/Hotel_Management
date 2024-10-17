@@ -14,16 +14,15 @@ import uz.ilmnajot.revolution_task.entity.auth.User;
 import uz.ilmnajot.revolution_task.exception.AlreadyExistsException;
 import uz.ilmnajot.revolution_task.exception.ForbiddenException;
 import uz.ilmnajot.revolution_task.exception.NotFoundException;
-import uz.ilmnajot.revolution_task.mapper.UserMapper;
-import uz.ilmnajot.revolution_task.model.request.SignUpRequest;
-import uz.ilmnajot.revolution_task.model.request.UserRequest;
-import uz.ilmnajot.revolution_task.model.request.UserSignInRequest;
-import uz.ilmnajot.revolution_task.model.response.AuthResponse;
+import uz.ilmnajot.revolution_task.payload.request.SignUpRequest;
+import uz.ilmnajot.revolution_task.payload.request.UserSignInRequest;
+import uz.ilmnajot.revolution_task.payload.response.AuthResponse;
+import uz.ilmnajot.revolution_task.payload.response.UserResponse;
 import uz.ilmnajot.revolution_task.repository.RoleRepository;
 import uz.ilmnajot.revolution_task.repository.UserRepository;
 import uz.ilmnajot.revolution_task.security.JwtProvider;
 import uz.ilmnajot.revolution_task.service.interfaces.AuthService;
-import uz.ilmnajot.revolution_task.model.common.ApiResponse;
+import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 import uz.ilmnajot.revolution_task.utils.RestConstant;
 
 import java.util.Optional;
@@ -38,7 +37,6 @@ public class AuthServiceImpl implements AuthService {
     private final JavaMailSender javaMailSender;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-    private final UserMapper userMapper;
     private final JwtProvider jwtProvider;
     private final AuthenticationManager authenticationManager;
 
@@ -82,8 +80,9 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalStateException(e.getMessage());
         }
         User addedUser = userRepository.save(user);
-        UserRequest mapperRequest = userMapper.toRequest(addedUser);
-        return new ApiResponse(true, "the code is sent to your email to verify in 15 minutes", mapperRequest);
+//        UserRequest mapperRequest = userMapper.toRequest(addedUser);
+        UserResponse userResponse = new UserResponse().toUserResponse(addedUser);
+        return new ApiResponse(true, "the code is sent to your email to verify in 15 minutes", userResponse);
     }
 
     @Override
@@ -92,7 +91,8 @@ public class AuthServiceImpl implements AuthService {
                 request.getUsername(),
                 request.getPassword()
         ));
-        User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new NotFoundException("username not found"));
+        User user = userRepository.findByUsername(request.getUsername()).orElseThrow(()
+                -> new NotFoundException("username not found"));
 
         if (!user.isEnabled()) {
             throw new ForbiddenException("you are not verified yet", HttpStatus.BAD_REQUEST);

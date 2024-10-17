@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.ilmnajot.revolution_task.model.request.RoomRequest;
+import uz.ilmnajot.revolution_task.payload.request.RoomRequest;
 import uz.ilmnajot.revolution_task.service.interfaces.RoomService;
-import uz.ilmnajot.revolution_task.model.common.ApiResponse;
+import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 import uz.ilmnajot.revolution_task.validation.CheckAuthority;
 
 @RequiredArgsConstructor
@@ -57,10 +57,19 @@ public class RoomController {
     @CheckAuthority("GET_ROOMS")
     @GetMapping("/getRemovedRooms")
     public HttpEntity<ApiResponse> getRemovedRooms(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                     @RequestParam(value = "size", defaultValue = "10") int size) {
+                                                   @RequestParam(value = "size", defaultValue = "10") int size) {
         ApiResponse rooms = roomService.getRemovedRooms(page, size);
         return ResponseEntity.ok(rooms);
     }
+
+    @CheckAuthority("GET_ROOMS")
+    @GetMapping("/getBookedDays")
+    public HttpEntity<ApiResponse> getBookedDays(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                   @RequestParam(value = "size", defaultValue = "10") int size) {
+        ApiResponse rooms = roomService.getBookedDays(page, size);
+        return ResponseEntity.ok(rooms);
+    }
+
 
     @CheckAuthority("DELETE_ROOM")
     @DeleteMapping("/removeRoom/{roomId}")

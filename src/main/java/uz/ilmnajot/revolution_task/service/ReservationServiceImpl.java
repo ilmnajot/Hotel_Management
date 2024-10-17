@@ -11,7 +11,7 @@ import uz.ilmnajot.revolution_task.repository.ReservationRepository;
 import uz.ilmnajot.revolution_task.repository.RoomRepository;
 import uz.ilmnajot.revolution_task.repository.UserRepository;
 import uz.ilmnajot.revolution_task.service.interfaces.ReservationService;
-import uz.ilmnajot.revolution_task.model.common.ApiResponse;
+import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

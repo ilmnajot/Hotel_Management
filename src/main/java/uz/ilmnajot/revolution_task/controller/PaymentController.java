@@ -3,8 +3,8 @@ package uz.ilmnajot.revolution_task.controller;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.ilmnajot.revolution_task.model.common.ApiResponse;
-import uz.ilmnajot.revolution_task.model.request.PaymentRequest;
+import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
+import uz.ilmnajot.revolution_task.payload.request.PaymentRequest;
 import uz.ilmnajot.revolution_task.service.interfaces.PaymentService;
 import uz.ilmnajot.revolution_task.validation.CheckAuthority;
 

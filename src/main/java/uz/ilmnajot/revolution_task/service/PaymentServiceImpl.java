@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 import uz.ilmnajot.revolution_task.entity.Payment;
 import uz.ilmnajot.revolution_task.entity.Reservation;
 import uz.ilmnajot.revolution_task.exception.NotFoundException;
-import uz.ilmnajot.revolution_task.model.common.ApiResponse;
-import uz.ilmnajot.revolution_task.model.request.PaymentRequest;
+import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
+import uz.ilmnajot.revolution_task.payload.request.PaymentRequest;
+import uz.ilmnajot.revolution_task.payload.response.PaymentResponse;
 import uz.ilmnajot.revolution_task.repository.PaymentRepository;
 import uz.ilmnajot.revolution_task.repository.ReservationRepository;
 import uz.ilmnajot.revolution_task.service.interfaces.PaymentService;
@@ -33,7 +34,10 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setCardNumber(request.getCardNumber());
         payment.setPaymentMethod(request.getPaymentMethod());
         payment.setAmount(request.getAmount());
-        return new ApiResponse(true, "success", paymentRepository.save(payment));
+        Payment savedPayment = paymentRepository.save(payment);
+        PaymentResponse paymentResponse = new PaymentResponse();
+        PaymentResponse response = paymentResponse.toPaymentResponse(savedPayment);
+        return new ApiResponse(true, "success", response);
     }
 
     @Override
@@ -50,22 +54,25 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setStatus(request.getStatus());
         payment.setReservation(reservation);
         Payment savedOne = paymentRepository.save(payment);
-        return new ApiResponse(true, "success", savedOne);
+        PaymentResponse paymentResponse = new PaymentResponse().toPaymentResponse(savedOne);
+        return new ApiResponse(true, "success", paymentResponse);
     }
 
     @Override
     public ApiResponse getPayment(Long paymentId) {
-        Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> new NotFoundException("Payment not found", HttpStatus.BAD_REQUEST));
-        return new ApiResponse(true, "success", payment);
+        Payment payment = paymentRepository.findById(paymentId).orElseThrow(()
+                -> new NotFoundException("Payment not found", HttpStatus.BAD_REQUEST));
+        PaymentResponse paymentResponse = new PaymentResponse().toPaymentResponse(payment);
+        return new ApiResponse(true, "success", paymentResponse);
     }
 
     @Override
     public ApiResponse getPayments(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Payment> payments = paymentRepository.findAll(pageRequest);
-        List<PaymentRequest> paymentRequests =
-                payments.stream().map(payment -> new PaymentRequest()).toList();
-        return new ApiResponse(true, "success", paymentRequests);
+        List<PaymentResponse> paymentResponses =
+                payments.stream().map(payment -> new PaymentResponse().toPaymentResponse(payment)).toList();
+        return new ApiResponse(true, "success", paymentResponses);
     }
 
     @Override

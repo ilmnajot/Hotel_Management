@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.ilmnajot.revolution_task.model.request.SignUpRequest;
-import uz.ilmnajot.revolution_task.model.request.UserSignInRequest;
+import uz.ilmnajot.revolution_task.payload.request.SignUpRequest;
+import uz.ilmnajot.revolution_task.payload.request.UserSignInRequest;
 import uz.ilmnajot.revolution_task.service.interfaces.AuthService;
-import uz.ilmnajot.revolution_task.model.common.ApiResponse;
+import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 
 @RequiredArgsConstructor
 @RestController

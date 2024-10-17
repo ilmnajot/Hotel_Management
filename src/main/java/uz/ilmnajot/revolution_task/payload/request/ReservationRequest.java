@@ -1,14 +1,9 @@
-package uz.ilmnajot.revolution_task.model.request;
+package uz.ilmnajot.revolution_task.payload.request;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import uz.ilmnajot.revolution_task.entity.Room;
-import uz.ilmnajot.revolution_task.entity.auth.User;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Setter

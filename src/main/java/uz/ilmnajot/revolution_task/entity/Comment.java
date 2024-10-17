@@ -22,4 +22,10 @@ public class Comment extends AbsEntity {
 
     @ManyToOne
     private User users;
+
+    @ManyToOne
+    private Hotel hotel;
+
+    @ManyToOne
+    private Room room;
 }

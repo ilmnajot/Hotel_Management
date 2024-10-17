@@ -1,12 +1,7 @@
-package uz.ilmnajot.revolution_task.model.request;
+package uz.ilmnajot.revolution_task.payload.request;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import uz.ilmnajot.revolution_task.entity.Reservation;
 import uz.ilmnajot.revolution_task.enums.PaymentMethod;
 import uz.ilmnajot.revolution_task.enums.PaymentStatus;
 
