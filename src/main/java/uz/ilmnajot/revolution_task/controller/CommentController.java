@@ -1,5 +1,6 @@
 package uz.ilmnajot.revolution_task.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.hibernate.annotations.Check;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import uz.ilmnajot.revolution_task.validation.CheckAuthority;
 
 @RestController
 @RequestMapping("/comment")
+@SecurityRequirement(name = "Bearer")
 public class CommentController {
 
     private final CommentService commentService;

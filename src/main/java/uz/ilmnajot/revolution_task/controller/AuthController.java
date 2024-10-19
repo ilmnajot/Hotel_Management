@@ -1,5 +1,5 @@
 package uz.ilmnajot.revolution_task.controller;
-
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +10,7 @@ import uz.ilmnajot.revolution_task.service.interfaces.AuthService;
 import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 
 @RequiredArgsConstructor
+//@SecurityRequirement(name = "Bearer")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -17,20 +18,20 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signUp")
-    public HttpEntity<ApiResponse> signUp(@RequestBody SignUpRequest request){
+    public HttpEntity<ApiResponse> signUp(@Valid @RequestBody SignUpRequest request) {
         ApiResponse apiResponse = authService.signUp(request);
         return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping("/verify")
     public HttpEntity<ApiResponse> verify(@RequestParam("username") String username,
-                                          @RequestParam("verificationCode") String verificationCode){
+                                          @RequestParam("verificationCode") String verificationCode) {
         ApiResponse apiResponse = authService.verify(username, verificationCode);
         return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping("/signIn")
-    public HttpEntity<ApiResponse> signIn(@RequestBody UserSignInRequest request){
+    public HttpEntity<ApiResponse> signIn(@RequestBody UserSignInRequest request) {
         ApiResponse apiResponse = authService.signIn(request);
         return ResponseEntity.ok(apiResponse);
     }

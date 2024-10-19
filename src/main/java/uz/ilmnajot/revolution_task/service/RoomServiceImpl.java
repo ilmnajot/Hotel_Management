@@ -109,7 +109,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public ApiResponse getBookedDays(int page, int size) {
-        roomRepository.find
+        return null;
 
     }
 }

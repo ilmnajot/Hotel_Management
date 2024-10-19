@@ -32,5 +32,9 @@ public class ApiResponse {
 
     }
 
-
+    public ApiResponse(boolean success, String message, HttpStatus status) {
+        this.success = success;
+        this.message = message;
+        this.status = status;
+    }
 }

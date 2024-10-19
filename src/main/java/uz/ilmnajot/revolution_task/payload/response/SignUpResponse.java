@@ -1,12 +1,12 @@
 package uz.ilmnajot.revolution_task.payload.response;
 
-import lombok.Data;
-import org.springframework.stereotype.Component;
+import lombok.Getter;
+import lombok.Setter;
 import uz.ilmnajot.revolution_task.entity.auth.User;
 
-@Data
-@Component
-public class UserResponse {
+@Setter
+@Getter
+public class SignUpResponse {
 
     private Long id;
     private String fName;
@@ -14,11 +14,12 @@ public class UserResponse {
     private String username;
     private String pNumber;
     private String address;
-//    private Long roleId;
+    private String password;
+    private String repeatPassword;
 
 
-    public UserResponse toUserResponse(User user) {
-        UserResponse response = new UserResponse();
+    public static SignUpResponse toSignUpResponse(User user) {
+        SignUpResponse response = new SignUpResponse();
         response.setId(user.getId());
         response.setFName(user.getFName());
         response.setLName(user.getLName());
@@ -27,6 +28,5 @@ public class UserResponse {
         response.setAddress(user.getAddress());
         return response;
     }
-
 
 }

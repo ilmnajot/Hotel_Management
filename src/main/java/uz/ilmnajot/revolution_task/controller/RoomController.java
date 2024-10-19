@@ -1,5 +1,6 @@
 package uz.ilmnajot.revolution_task.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,7 @@ import uz.ilmnajot.revolution_task.payload.request.RoomRequest;
 import uz.ilmnajot.revolution_task.service.interfaces.RoomService;
 import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 import uz.ilmnajot.revolution_task.validation.CheckAuthority;
-
+@SecurityRequirement(name="Bearer")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/rooms")

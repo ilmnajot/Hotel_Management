@@ -17,6 +17,7 @@ import uz.ilmnajot.revolution_task.exception.NotFoundException;
 import uz.ilmnajot.revolution_task.payload.request.SignUpRequest;
 import uz.ilmnajot.revolution_task.payload.request.UserSignInRequest;
 import uz.ilmnajot.revolution_task.payload.response.AuthResponse;
+import uz.ilmnajot.revolution_task.payload.response.SignUpResponse;
 import uz.ilmnajot.revolution_task.payload.response.UserResponse;
 import uz.ilmnajot.revolution_task.repository.RoleRepository;
 import uz.ilmnajot.revolution_task.repository.UserRepository;
@@ -41,7 +42,6 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
 
-
     @Value("${spring.mail.username}")
     private String mail;
 
@@ -58,9 +58,9 @@ public class AuthServiceImpl implements AuthService {
         user.setFName(request.getFName());
         user.setLName(request.getLName());
         user.setUsername(request.getUsername());
-//        user.setVerificationCode(request.getVerificationCode());
+        user.setPNumber(request.getPNumber());
+        user.setAddress(request.getAddress());
         if (!request.getPassword().equals(request.getRepeatPassword())) {
-
             throw new ForbiddenException("not matching passwords", HttpStatus.BAD_REQUEST);
         }
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -70,8 +70,8 @@ public class AuthServiceImpl implements AuthService {
         user.setVerificationCode(verificationCode);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(request.getUsername());
-        message.setFrom("ilmnajot2021@gmail.com");
-        message.setSubject("Test Email");
+        message.setFrom("hotel@gmail.com");
+        message.setSubject("Verify e-mail");
         message.setText("Verification Code: " + verificationCode);
         try {
 
@@ -79,10 +79,12 @@ public class AuthServiceImpl implements AuthService {
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage());
         }
-        User addedUser = userRepository.save(user);
-//        UserRequest mapperRequest = userMapper.toRequest(addedUser);
-        UserResponse userResponse = new UserResponse().toUserResponse(addedUser);
-        return new ApiResponse(true, "the code is sent to your email to verify in 15 minutes", userResponse);
+        userRepository.save(user);
+//        SignUpResponse.toSignUpResponse(addedUser);
+        return new ApiResponse(
+                true,
+                "the code is sent to your email: " + request.getUsername() + " and you have only 15 minutes to verify",
+                HttpStatus.OK);
     }
 
     @Override
@@ -110,7 +112,7 @@ public class AuthServiceImpl implements AuthService {
         if (user.getVerificationCode() != null && user.getVerificationCode().equals(verificationCode)) {
             user.setEnabled(true);
             userRepository.save(user);
-            return new ApiResponse(true, "verified",HttpStatus.OK);
+            return new ApiResponse(true, "success", "Verified successfully", HttpStatus.OK);
         }
         throw new ForbiddenException("failed", HttpStatus.BAD_REQUEST);
     }
@@ -121,9 +123,6 @@ public class AuthServiceImpl implements AuthService {
         int randomCode = 100000 + random.nextInt(900000);
         return String.valueOf(randomCode);
     }
-
-
-
 
 
 }

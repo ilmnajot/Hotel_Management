@@ -1,5 +1,6 @@
 package uz.ilmnajot.revolution_task.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +8,7 @@ import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 import uz.ilmnajot.revolution_task.payload.request.PaymentRequest;
 import uz.ilmnajot.revolution_task.service.interfaces.PaymentService;
 import uz.ilmnajot.revolution_task.validation.CheckAuthority;
-
+@SecurityRequirement(name="BearerAuth")
 @RestController
 @RequestMapping("/api/payment")
 public class PaymentController {

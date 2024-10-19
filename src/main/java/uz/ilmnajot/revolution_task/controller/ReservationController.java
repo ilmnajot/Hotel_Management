@@ -1,5 +1,6 @@
 package uz.ilmnajot.revolution_task.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import uz.ilmnajot.revolution_task.validation.CheckAuthority;
 
 @RestController
 @RequestMapping("/api/reserve")
+@SecurityRequirement(name="BearerAuth")
 public class ReservationController {
 
     private final ReservationService reservationService;
