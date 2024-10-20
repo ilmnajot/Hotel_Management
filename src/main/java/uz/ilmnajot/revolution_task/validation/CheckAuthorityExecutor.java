@@ -17,7 +17,9 @@ public class CheckAuthorityExecutor {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean exist = false;
 
+        System.out.println("Required authority: " + checkAuthority.value());
         for (GrantedAuthority authority : user.getAuthorities()) {
+            System.out.println("User hase Authority: " + authority.getAuthority());
             if (authority.getAuthority().equals(checkAuthority.value())) {
                 exist = true;
                 break;

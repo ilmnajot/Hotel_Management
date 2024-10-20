@@ -8,6 +8,7 @@ import uz.ilmnajot.revolution_task.template.AbsEntity;
 
 import java.util.List;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -20,4 +21,9 @@ public class Role extends AbsEntity {
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
+
+//        @Enumerated(EnumType.STRING)
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    private List<Authority> authorities;
+
 }
