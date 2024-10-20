@@ -1,6 +1,7 @@
 package uz.ilmnajot.revolution_task.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 import uz.ilmnajot.revolution_task.entity.auth.User;
@@ -27,5 +28,6 @@ public class Comment extends AbsEntity {
     private Hotel hotel;
 
     @ManyToOne
+    @JoinColumn(name = "room_id")
     private Room room;
 }

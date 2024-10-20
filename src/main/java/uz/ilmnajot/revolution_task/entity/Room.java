@@ -35,7 +35,7 @@ public class Room extends AbsEntity {
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
 
-    @OneToMany
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     public Room(int roomNumber, BigDecimal price, RoomStatus status, RoomCategory category, RoomType roomType) {

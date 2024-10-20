@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 //                name = "BearerAuth"
 //        )
         servers = {
-        @Server(url = "http://localhost:8080", description = "Education server"),
+        @Server(url = "http://localhost:8080", description = "Hotel Management server"),
 }
 )
 @SecurityScheme(

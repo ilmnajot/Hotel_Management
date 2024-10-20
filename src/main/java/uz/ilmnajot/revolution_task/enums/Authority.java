@@ -8,6 +8,8 @@ public enum Authority {
     BOOK_ROOM,
     GET_ROOM,
     GET_ROOMS,
+    GET_AVAILABLE_ROOMS,
+    GET_REMOVED_ROOMS,
 
 
     MAKE_PAYMENT,
