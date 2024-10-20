@@ -8,9 +8,6 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
@@ -20,15 +17,15 @@ import org.springframework.context.annotation.Configuration;
         description = "OpenAPI documentation for Hotel Management",
         contact = @Contact(name = "SamPM", email = "user@gmail.com")
 ),
-        security = @SecurityRequirement(
-                name = "BearerAuth"
-        )
-//        servers = {
-//        @Server(url = "http://localhost:8080", description = "Education server"),
-//}
+//        security = @SecurityRequirement(
+//                name = "BearerAuth"
+//        )
+        servers = {
+        @Server(url = "http://localhost:8080", description = "Education server"),
+}
 )
 @SecurityScheme(
-        name = "BearerAuth",
+        name = "Bearer",
         description = "JWT-based authentication",
         scheme = "bearer",
         type = SecuritySchemeType.HTTP,
@@ -36,6 +33,6 @@ import org.springframework.context.annotation.Configuration;
         in = SecuritySchemeIn.HEADER
 )
 @Configuration
-public class SwaggerConfig {
+public class OpenAPIConfig {
 
 }

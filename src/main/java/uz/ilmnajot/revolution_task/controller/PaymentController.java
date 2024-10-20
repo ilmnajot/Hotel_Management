@@ -8,7 +8,7 @@ import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 import uz.ilmnajot.revolution_task.payload.request.PaymentRequest;
 import uz.ilmnajot.revolution_task.service.interfaces.PaymentService;
 import uz.ilmnajot.revolution_task.validation.CheckAuthority;
-@SecurityRequirement(name="BearerAuth")
+@SecurityRequirement(name="Bearer")
 @RestController
 @RequestMapping("/api/payment")
 public class PaymentController {

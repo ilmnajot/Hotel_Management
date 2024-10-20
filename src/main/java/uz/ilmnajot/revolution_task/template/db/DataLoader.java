@@ -29,7 +29,11 @@ public class DataLoader implements CommandLineRunner {
     @Value("${spring.sql.init.mode}")
     private String mode;
 
-    public DataLoader(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, HotelRepository hotelRepository) {
+    public DataLoader(
+            RoleRepository roleRepository,
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            HotelRepository hotelRepository) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -51,7 +55,9 @@ public class DataLoader implements CommandLineRunner {
                 Authority.GET_ROOMS);
 
         List<Authority> authorityListUser = Arrays.asList(
-                Authority.GET_ROOM, Authority.GET_ROOMS);
+                Authority.GET_ROOM,
+                Authority.GET_ROOMS,
+                Authority.POST_COMMENT);
 
         if (mode.equals("always")) {
 
@@ -61,16 +67,15 @@ public class DataLoader implements CommandLineRunner {
             roleRepository.save(roleUser);
 
 
-            Role roleAdmin = new Role();
-            roleAdmin.setName("ADMIN");
-            roleAdmin.setRoleType(RoleType.ADMIN);
-            roleRepository.save(roleAdmin);
-
-
             Role roleManager = new Role();
             roleManager.setName("MANAGER");
             roleManager.setRoleType(RoleType.MANAGER);
             roleRepository.save(roleManager);
+
+            Role roleAdmin = new Role();
+            roleAdmin.setName("ADMIN");
+            roleAdmin.setRoleType(RoleType.ADMIN);
+            roleRepository.save(roleAdmin);
 
 
             User user = new User();
@@ -82,14 +87,6 @@ public class DataLoader implements CommandLineRunner {
             userRepository.save(user);
 
 
-            User admin = new User();
-            admin.setUsername("admin@gmail.com");
-            admin.setPassword(passwordEncoder.encode("admin"));
-            admin.setAuthorities(authorityListAdmin);
-            admin.setRole(roleAdmin);
-            admin.setEnabled(true);
-            userRepository.save(admin);
-
             User manager = new User();
             manager.setUsername("manager@gmail.com");
             manager.setPassword(passwordEncoder.encode("manager"));
@@ -98,6 +95,14 @@ public class DataLoader implements CommandLineRunner {
             manager.setEnabled(true);
             userRepository.save(manager);
 
+
+            User admin = new User();
+            admin.setUsername("admin@gmail.com");
+            admin.setPassword(passwordEncoder.encode("admin"));
+            admin.setAuthorities(authorityListAdmin);
+            admin.setRole(roleAdmin);
+            admin.setEnabled(true);
+            userRepository.save(admin);
 
             List<Room> roomList = Arrays.asList(
                     new Room(1, null, RoomStatus.AVAILABLE, RoomCategory.LUX, RoomType.DOUBLE),

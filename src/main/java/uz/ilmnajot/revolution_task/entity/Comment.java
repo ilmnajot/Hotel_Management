@@ -21,7 +21,7 @@ public class Comment extends AbsEntity {
     private float score=4.5f;
 
     @ManyToOne
-    private User users;
+    private User user;
 
     @ManyToOne
     private Hotel hotel;

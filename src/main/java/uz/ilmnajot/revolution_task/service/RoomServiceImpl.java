@@ -3,9 +3,11 @@ package uz.ilmnajot.revolution_task.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uz.ilmnajot.revolution_task.entity.Room;
+import uz.ilmnajot.revolution_task.enums.RoomStatus;
 import uz.ilmnajot.revolution_task.exception.AlreadyExistsException;
 import uz.ilmnajot.revolution_task.exception.NotFoundException;
 import uz.ilmnajot.revolution_task.payload.request.RoomRequest;
@@ -14,7 +16,9 @@ import uz.ilmnajot.revolution_task.repository.RoomRepository;
 import uz.ilmnajot.revolution_task.service.interfaces.RoomService;
 import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -67,11 +71,20 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public ApiResponse getRooms(int page, int size) {
-        Page<Room> roomPage = roomRepository.findAll(PageRequest.of(page, size));
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Room> roomPage = roomRepository.findAll(pageable);
+        if(roomPage.isEmpty()){
+            throw new NotFoundException("rooms not found", HttpStatus.NOT_FOUND);
+        }
         List<RoomResponse> list = roomPage
                 .stream()
                 .map(new RoomResponse()::toRoomResponse)
                 .toList();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("rooms", list);
+        response.put("currentPage", roomPage.getNumber());
+        response.put("all pages", roomPage.getTotalElements());
         return new ApiResponse(true, "success", list, HttpStatus.OK);
     }
 
@@ -81,6 +94,7 @@ public class RoomServiceImpl implements RoomService {
         if (optionalRoom.isPresent()) {
             Room room = optionalRoom.get();
             room.setDisabled(true);
+            room.setStatus(RoomStatus.MAINTENANCE);
             roomRepository.save(room);
             return new ApiResponse(true, "Successfully deleted", HttpStatus.OK);
         }
@@ -99,7 +113,11 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public ApiResponse getRemovedRooms(int page, int size) {
-        Page<Room> removedRooms = roomRepository.findAllByDisabledTrue(PageRequest.of(page, size));
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Room> removedRooms = roomRepository.findAllByDisabledTrue(pageable);
+        if (removedRooms.isEmpty()) {
+            throw new NotFoundException("rooms not found", HttpStatus.OK);
+        }
         List<RoomResponse> roomList = removedRooms
                 .stream()
                 .map(new RoomResponse()::toRoomResponse)

@@ -102,7 +102,7 @@ public class AuthServiceImpl implements AuthService {
         String token = jwtProvider.generateAccessToken(user);
         AuthResponse authResponse = new AuthResponse();
         authResponse.setToken(token);
-        return new ApiResponse(true, "token: ", authResponse);
+        return new ApiResponse(true, "token: ", authResponse, HttpStatus.OK);
     }
 
     @Override

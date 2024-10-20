@@ -4,7 +4,8 @@ import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 import uz.ilmnajot.revolution_task.payload.request.CommentRequest;
 
 public interface CommentService {
-    ApiResponse commentToHotel(Long hotelId, CommentRequest comment);
 
-    ApiResponse commentToRoom(Long roomId, CommentRequest request);
+    ApiResponse commentToHotel(Long hotelId, CommentRequest comment, Long userId);
+
+    ApiResponse commentToRoom(Long roomId, CommentRequest request, Long userId);
 }

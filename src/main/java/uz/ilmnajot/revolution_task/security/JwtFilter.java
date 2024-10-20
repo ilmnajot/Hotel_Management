@@ -33,10 +33,12 @@ public class JwtFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("api/v1/auth")){
-            filterChain.doFilter(request, response);
-            return;
-        }
+//        if (request.getServletPath().startsWith("/api/auth")
+//                || request.getServletPath().startsWith("/v3/api-docs")
+//                || request.getServletPath().startsWith("/swagger-ui")) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
         final String authHeader = request.getHeader(RestConstant.AUTHORIZATION_HEADER);
         final String username;
         final String jwt;

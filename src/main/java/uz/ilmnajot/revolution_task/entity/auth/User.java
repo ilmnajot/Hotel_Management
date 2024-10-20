@@ -29,6 +29,7 @@ public class User extends AbsEntity implements UserDetails {
     private String address;
     private String verificationCode;
     private String password;
+
     @ManyToOne
     private Role role;
 

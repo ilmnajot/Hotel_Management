@@ -11,7 +11,7 @@ import uz.ilmnajot.revolution_task.validation.CheckAuthority;
 
 @RestController
 @RequestMapping("/api/reserve")
-@SecurityRequirement(name="BearerAuth")
+@SecurityRequirement(name="Bearer")
 public class ReservationController {
 
     private final ReservationService reservationService;

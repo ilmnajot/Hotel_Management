@@ -14,14 +14,15 @@ public class CommentResponse {
 
     private float score=4.5f;
 
-    private Long userId;
+//    private Long userId;
 
 
     public CommentResponse toCommentResponse(Comment comment){
         CommentResponse response = new CommentResponse();
+        response.setId(comment.getId());
         response.setText(comment.getText());
         response.setScore(comment.getScore());
-        response.setUserId(comment.getUsers().getId());
+//        response.setUserId(comment.getUsers().getId());
         return response;
     }
 }

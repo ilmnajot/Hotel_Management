@@ -9,6 +9,7 @@ import uz.ilmnajot.revolution_task.entity.Comment;
 import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
 import uz.ilmnajot.revolution_task.payload.request.CommentRequest;
 import uz.ilmnajot.revolution_task.payload.request.RoomRequest;
+import uz.ilmnajot.revolution_task.service.CommentServiceImpl;
 import uz.ilmnajot.revolution_task.service.interfaces.CommentService;
 import uz.ilmnajot.revolution_task.validation.CheckAuthority;
 
@@ -24,16 +25,20 @@ public class CommentController {
     }
 
     @CheckAuthority("POST_COMMENT")
-    @PostMapping("/postComment/{hotelId}")
-    public HttpEntity<ApiResponse> postComment(@PathVariable("hotelId") Long hotelId,@RequestBody CommentRequest request) {
-        ApiResponse apiResponse = commentService.commentToHotel(hotelId, request);
+    @PostMapping("/hotel/{hotelId}")
+    public HttpEntity<ApiResponse> postComment(@PathVariable("hotelId") Long hotelId,
+                                               @RequestBody CommentRequest request) {
+        Long userId = CommentServiceImpl.getCurrentUserId();
+        ApiResponse apiResponse = commentService.commentToHotel(hotelId, request, userId);
         return ResponseEntity.ok(apiResponse);
     }
 
     @CheckAuthority("POST_COMMENT")
-    @PostMapping("/postComment/{roomId}")
-    public HttpEntity<ApiResponse> postCommentRoom(@PathVariable("roomId") Long roomId,@RequestBody CommentRequest request) {
-        ApiResponse apiResponse = commentService.commentToRoom(roomId, request);
+    @PostMapping("/room/{roomId}")
+    public HttpEntity<ApiResponse> postCommentRoom(@PathVariable("roomId") Long roomId,
+                                                   @RequestBody CommentRequest request) {
+        Long userId = CommentServiceImpl.getCurrentUserId();
+        ApiResponse apiResponse = commentService.commentToRoom(roomId, request, userId);
         return ResponseEntity.ok(apiResponse);
     }
 }
