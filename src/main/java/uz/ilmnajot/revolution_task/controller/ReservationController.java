@@ -31,4 +31,11 @@ public class ReservationController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('BOOK_ROOM')")
+    @GetMapping("/getInfo/{userId}")
+    public HttpEntity<ApiResponse> getInfo(@PathVariable("userId") Long userId) {
+        ApiResponse apiResponse = reservationService.getInfo(userId);
+        return ResponseEntity.ok(apiResponse);
+    }
+
 }

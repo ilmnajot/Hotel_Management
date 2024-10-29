@@ -6,11 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import uz.ilmnajot.revolution_task.dto.RoomDto;
 import uz.ilmnajot.revolution_task.entity.Room;
 import uz.ilmnajot.revolution_task.enums.RoomStatus;
 import uz.ilmnajot.revolution_task.exception.AlreadyExistsException;
 import uz.ilmnajot.revolution_task.exception.NotFoundException;
-import uz.ilmnajot.revolution_task.payload.request.RoomRequest;
+import uz.ilmnajot.revolution_task.mapper.RoomMapper;
 import uz.ilmnajot.revolution_task.payload.response.RoomResponse;
 import uz.ilmnajot.revolution_task.repository.RoomRepository;
 import uz.ilmnajot.revolution_task.service.interfaces.RoomService;
@@ -27,65 +28,54 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
 
+    private final RoomMapper roomMapper;
+
     @Override
-    public ApiResponse addRoom(RoomRequest request) {
+    public ApiResponse addRoom(RoomDto request) {
         Optional<Room> optionalRoom = roomRepository.findByRoomNumber(request.getRoomNumber());
         if (optionalRoom.isPresent()) {
             throw new AlreadyExistsException(HttpStatus.BAD_REQUEST, "Room already added");
         }
-        Room room = new Room();
-        room.setRoomNumber(request.getRoomNumber());
-        room.setPrice(request.getPrice());
-        room.setStatus(request.getStatus());
-        room.setCategory(request.getCategory());
-        room.setRoomType(request.getRoomType());
-        Room addedRoom = roomRepository.save(room);
-        RoomResponse roomResponse = new RoomResponse().toRoomResponse(addedRoom);
-//        RoomRequest mapperRequest = roomMapper.toRequest(addedRoom);
-        return new ApiResponse(true, "Successfully added room", roomResponse, HttpStatus.CREATED);
+        Room roomEntity = roomMapper.toRoomEntity(request);
+        Room addedRoom = roomRepository.save(roomEntity);
+        RoomDto mapperRequest = roomMapper.toRoomDto(addedRoom);
+        return new ApiResponse(true, "Successfully added room", mapperRequest, HttpStatus.CREATED);
     }
 
     @Override
-    public ApiResponse updateRoom(Long roomId, RoomRequest request) {
+    public ApiResponse updateRoom(Long roomId, RoomDto request) {
         Room room = roomRepository.findById(roomId).orElseThrow(()
                 -> new NotFoundException("room not found", HttpStatus.BAD_REQUEST));
-        room.setRoomNumber(request.getRoomNumber());
-        room.setPrice(request.getPrice());
-//        room.setStatus(RoomStatus.AVAILABLE);
-        room.setCategory(request.getCategory());
-        room.setRoomType(request.getRoomType());
-        Room save = roomRepository.save(room);
-        RoomResponse roomResponse = new RoomResponse().toRoomResponse(save);
-//        RoomRequest mapperRequest = roomMapper.toRequest(save);
-        return new ApiResponse(true, "updated", roomResponse, HttpStatus.OK);
+
+        room = roomMapper.toUpdateEntity(request, room);
+
+        Room updatedRoom = this.roomRepository.save(room);
+        RoomDto roomDto = roomMapper.toRoomDto(updatedRoom);
+        return new ApiResponse(true, "updated", roomDto, HttpStatus.OK);
     }
 
     @Override
     public ApiResponse getRoom(Long roomId) {
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new NotFoundException("room not found", HttpStatus.BAD_REQUEST));
-//        RoomRequest mapperRequest = roomMapper.toRequest(room);
-
-        RoomResponse roomResponse = new RoomResponse().toRoomResponse(room);
-        return new ApiResponse(true, "Room: ", roomResponse, HttpStatus.OK);
+        Room room = roomRepository.findById(roomId).orElseThrow(()
+                -> new NotFoundException("room not found", HttpStatus.BAD_REQUEST));
+        RoomDto roomDto = roomMapper.toRoomDto(room);
+        return new ApiResponse(true, "Room: ", roomDto, HttpStatus.OK);
     }
 
     @Override
     public ApiResponse getRooms(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Room> roomPage = roomRepository.findAll(pageable);
-        if(roomPage.isEmpty()){
+        if (roomPage.isEmpty()) {
             throw new NotFoundException("rooms not found", HttpStatus.NOT_FOUND);
         }
-        List<RoomResponse> list = roomPage
-                .stream()
-                .map(new RoomResponse()::toRoomResponse)
-                .toList();
+        List<RoomDto> roomDtoList = roomMapper.toRoomDtoList(roomPage);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("rooms", list);
+        response.put("rooms", roomDtoList);
         response.put("currentPage", roomPage.getNumber());
         response.put("all pages", roomPage.getTotalElements());
-        return new ApiResponse(true, "success", list, HttpStatus.OK);
+        return new ApiResponse(true, "success", response, HttpStatus.OK);
     }
 
     @Override
@@ -104,11 +94,8 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public ApiResponse getAvailableRooms(int page, int size) {
         Page<Room> availableRooms = roomRepository.findAllByDisabledFalse(PageRequest.of(page, size));
-        List<RoomResponse> list = availableRooms
-                .stream()
-                .map(new RoomResponse()::toRoomResponse)
-                .toList();
-        return new ApiResponse(true, "success", list, HttpStatus.OK);
+        List<RoomDto> roomDtoList = roomMapper.toRoomDtoList(availableRooms);
+        return new ApiResponse(true, "success", roomDtoList, HttpStatus.OK);
     }
 
     @Override
@@ -118,16 +105,21 @@ public class RoomServiceImpl implements RoomService {
         if (removedRooms.isEmpty()) {
             throw new NotFoundException("rooms not found", HttpStatus.OK);
         }
-        List<RoomResponse> roomList = removedRooms
-                .stream()
-                .map(new RoomResponse()::toRoomResponse)
-                .toList();
-        return new ApiResponse(true, "success", roomList, HttpStatus.OK);
+        List<RoomDto> roomDtoList = roomMapper.toRoomDtoList(removedRooms);
+        return new ApiResponse(true, "success", roomDtoList, HttpStatus.OK);
     }
 
     @Override
     public ApiResponse getBookedDays(int page, int size) {
         return null;
 
+    }
+
+    @Override
+    public ApiResponse getExpensiveRooms(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<Room> topExpensiveRooms = roomRepository.findTopExpensiveRooms(pageable);
+        List<RoomDto> roomDtoList = roomMapper.toRoomDtoList(topExpensiveRooms);
+        return new ApiResponse(true, "success", roomDtoList, HttpStatus.OK);
     }
 }

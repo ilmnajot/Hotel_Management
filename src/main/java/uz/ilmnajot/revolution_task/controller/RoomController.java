@@ -5,6 +5,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import uz.ilmnajot.revolution_task.dto.RoomDto;
 import uz.ilmnajot.revolution_task.payload.request.RoomRequest;
 import uz.ilmnajot.revolution_task.service.interfaces.RoomService;
 import uz.ilmnajot.revolution_task.payload.common.ApiResponse;
@@ -19,7 +20,7 @@ public class RoomController {
 
     @PreAuthorize("hasAnyAuthority('ADD_ROOM')")
     @PostMapping("/addRoom")
-    public HttpEntity<?> addRoom(@RequestBody RoomRequest request) {
+    public HttpEntity<?> addRoom(@RequestBody RoomDto request) {
         ApiResponse apiResponse = roomService.addRoom(request);
         return ResponseEntity.ok(apiResponse);
     }
@@ -27,7 +28,7 @@ public class RoomController {
     @PreAuthorize("hasAnyAuthority('EDIT_ROOM')")
     @PutMapping("/update/{roomId}")
     public HttpEntity<?> updateRoom(@PathVariable("roomId") Long roomId,
-                                    @RequestBody RoomRequest request) {
+                                    @RequestBody RoomDto request) {
         ApiResponse apiResponse = roomService.updateRoom(roomId, request);
         return ResponseEntity.ok(apiResponse);
     }
@@ -52,6 +53,14 @@ public class RoomController {
     public HttpEntity<ApiResponse> getAvailableRooms(@RequestParam(value = "page", defaultValue = "0") int page,
                                                      @RequestParam(value = "size", defaultValue = "10") int size) {
         ApiResponse rooms = roomService.getAvailableRooms(page, size);
+        return ResponseEntity.ok(rooms);
+    }
+
+    @PreAuthorize("hasAnyAuthority('GET_AVAILABLE_ROOMS')")
+    @GetMapping("/getExpensiveRooms")
+    public HttpEntity<ApiResponse> getExpensiveRooms(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                     @RequestParam(value = "size", defaultValue = "10") int size) {
+        ApiResponse rooms = roomService.getExpensiveRooms(page, size);
         return ResponseEntity.ok(rooms);
     }
 

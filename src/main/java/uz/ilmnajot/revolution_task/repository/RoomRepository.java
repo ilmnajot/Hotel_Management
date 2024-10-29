@@ -22,6 +22,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     Page<Room> findAllByDisabledTrue(Pageable pageable);
 
+    Optional<Room> findByIdAndDisabledFalse(Long id);
+
     @Query("SELECT r FROM reservation r WHERE r.room.id = :roomId " +
             "AND (r.checkInDate BETWEEN :startDate AND :endDate " +
             "OR r.checkOutDate BETWEEN :startDate AND :endDate)")
@@ -29,5 +31,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
                                                       @Param("startDate") LocalDate startDate,
                                                       @Param("endDate") LocalDate endDate); // not done yet
 
+    @Query("select r from rooms as r order by r.price desc")
+    List<Room> findTopExpensiveRooms(Pageable pageable);
 
 }

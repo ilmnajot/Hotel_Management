@@ -7,6 +7,7 @@ import uz.ilmnajot.revolution_task.entity.Room;
 import uz.ilmnajot.revolution_task.entity.auth.User;
 import uz.ilmnajot.revolution_task.enums.RoomStatus;
 import uz.ilmnajot.revolution_task.exception.NotFoundException;
+import uz.ilmnajot.revolution_task.payload.response.UserReservationInfoResponse;
 import uz.ilmnajot.revolution_task.repository.ReservationRepository;
 import uz.ilmnajot.revolution_task.repository.RoomRepository;
 import uz.ilmnajot.revolution_task.repository.UserRepository;
@@ -54,6 +55,13 @@ public class ReservationServiceImpl implements ReservationService {
         room.setStatus(RoomStatus.BOOKED);
         roomRepository.save(room);
         return new ApiResponse(true, "booked", HttpStatus.OK);
+    }
+
+    @Override
+    public ApiResponse getInfo(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
+        List<UserReservationInfoResponse> userReservationInfo = reservationRepository.getUserReservationInfo(user.getId());
+        return new ApiResponse(true, "success", userReservationInfo, HttpStatus.OK);
     }
 
 

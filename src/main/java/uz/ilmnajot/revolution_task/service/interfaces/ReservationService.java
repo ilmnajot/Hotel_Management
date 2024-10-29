@@ -6,4 +6,6 @@ import java.time.LocalDate;
 
 public interface ReservationService {
     ApiResponse bookRoom(Long userId, Long roomId, LocalDate checkInDate, LocalDate checkOutDate);
+
+    ApiResponse getInfo(Long userId);
 }
